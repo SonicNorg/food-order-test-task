@@ -1,0 +1,66 @@
+openapi: 3.0.1
+info:
+  title: Restaurant
+  description: Обеспечивает взаимодействие с рестораном.
+  version: 1.0.0
+  x-backend:
+    name: Restaurant
+paths:
+  /menu:
+    get:
+      tags:
+        - Restaurant
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/FoodItem"
+  /order:
+    post:
+      tags:
+        - Restaurant
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              minLength: 1
+              items:
+                $ref: "#/components/schemas/OrderItem"
+        required: true
+
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/FoodItem"
+
+components:
+  schemas:
+    FoodItem:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        name:
+          type: string
+        price:
+          type: number
+    OrderItem:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        count:
+          type: integer
+          format: int32

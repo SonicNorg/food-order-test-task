@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: unknown-restaurant
+  cloud:
+    consul:
+      enabled: true
+      config:
+        enabled: true
+        format: yaml
+      discovery:
+        enabled: true
+        include-hostname-in-instance-id: true
+        service-name: nepavelTest
+        instance-id: ${spring.application.name}-${server.port}
+        health-check-path: /actuator/health
+      host: nepavel.name
+      port: 8500

@@ -1,0 +1,15 @@
+server:
+  port: 8992
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    username: ${restaurant.db.username}
+    password: ${restaurant.db.password}
+    url: ${restaurant.db.url}
+    schema: ${restaurant.db.schema}
+  flyway:
+    enabled: true
+    user: ${restaurant.db.username}
+    password: ${restaurant.db.password}
+    url: ${restaurant.db.url}
+    schemas: ${restaurant.db.schema}

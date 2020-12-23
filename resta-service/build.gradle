@@ -1,0 +1,41 @@
+plugins {
+	id 'org.springframework.boot' version "$springBootVersion"
+	id 'io.spring.dependency-management' version '1.0.10.RELEASE'
+	id 'java'
+}
+
+group = 'name.nepavel.foodorder'
+version = parent.version
+sourceCompatibility = '11'
+
+repositories {
+	mavenCentral()
+	maven { url 'https://repo.spring.io/milestone' }
+}
+
+dependencies {
+	//хелсчек и метрики
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	//без этого в новом спринге не будет работать bootstrap.yml и конфиг из Консула
+	implementation 'org.springframework.cloud:spring-cloud-starter-bootstrap'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+	compile group: 'org.postgresql', name: 'postgresql', version: '42.2.18'
+
+	//зависимость на АПИшку, собранную со своими зависимостями с помощью shadowJar
+	compile project(path: ":resta-api", configuration: 'shadow')
+
+	//спринговый процессор для работы аннотаций
+	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+}
+
+dependencyManagement {
+	imports {
+		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+	}
+}
+
+test {
+	useJUnitPlatform()
+}

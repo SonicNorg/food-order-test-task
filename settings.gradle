@@ -1,0 +1,5 @@
+rootProject.name = 'restaurant'
+include 'resta-api'
+include 'resta-service'
+include 'foodorderservice'
+
