@@ -1,5 +1,6 @@
 server:
-  port: 8992
+  port: 18992
+
 spring:
   datasource:
     driver-class-name: org.postgresql.Driver

@@ -1,7 +1,8 @@
 plugins {
-    id 'com.github.johnrengelman.shadow' version '6.1.0'
     id 'java'
     id "org.openapi.generator" version "5.0.0"
+//    id 'org.springframework.boot' version "$springBootVersion"
+    id 'io.spring.dependency-management' version '1.0.10.RELEASE'
 }
 
 group 'name.nepavel.foodorder'
@@ -12,28 +13,24 @@ repositories {
 }
 
 dependencies {
-    //зависимость на скомпиленные классы сгенерированного мавен-проекта
-    compile files("$buildDir/generated/target/classes") {
-        builtBy "compileMavenProject"
-    }
-    //зависимость на зависимости сгенерированного мавен-проекта
-    compile files("$buildDir/generated/target/libs") {
-        builtBy "downloadMavenDependencies"
-    }
+    compile 'io.swagger:swagger-annotations:1.5.18'
+    compile 'com.google.code.findbugs:jsr305:3.0.2'
+    compile 'org.openapitools:jackson-databind-nullable:0.1.0'
+    compile 'org.hibernate.validator:hibernate-validator:6.0.16.Final'
+    compile 'io.springfox:springfox-swagger2:2.8.0'
+
+    implementation "org.springframework.boot:spring-boot-starter-web:$springWebVersion"
+    compile "org.springframework.data:spring-data-commons:$springDataVersion"
 
     testCompile group: 'junit', name: 'junit', version: '4.12'
 }
 
-//собиралка мавеном
-task compileMavenProject(type: Exec) {
-    workingDir "$buildDir/generated/"
-    commandLine "$projectDir/mvnw.cmd", "clean", "package"
-}
-
-//скачивалка зависимостей мавен-проекта
-task downloadMavenDependencies(type: Exec) {
-    workingDir "$buildDir/generated/"
-    commandLine "$projectDir/mvnw.cmd", "dependency:copy-dependencies", "-DoutputDirectory=target/libs"
+sourceSets {
+    main {
+        java {
+            srcDirs += ["$buildDir/generated/src/main/java"]
+        }
+    }
 }
 
 openApiGenerate {
@@ -41,7 +38,7 @@ openApiGenerate {
     inputSpec = "$projectDir/src/main/resources/restaapi.yaml".toString()
     outputDir = "$buildDir/generated".toString()
     apiPackage = "name.nepavel.foodorder.restaapi.api"
-//        invokerPackage = "org.openapi.example.invoker"
+    invokerPackage = "name.nepavel.foodorder.restaapi"
     modelPackage = "name.nepavel.foodorder.restaapi.model"
 //        modelFilesConstrainedTo = [
 //                "Error"
@@ -53,8 +50,8 @@ openApiGenerate {
 }
 
 compileJava.dependsOn tasks.openApiGenerate
-compileMavenProject.dependsOn tasks.openApiGenerate
-downloadMavenDependencies.dependsOn tasks.openApiGenerate
 
-//билд - ничто без зависимостей
-tasks.build.finalizedBy(tasks.shadowJar)
+tasks.openApiGenerate.doLast {
+    delete "${buildDir}/generated/src/main/java/org"
+    delete "${buildDir}/generated/src/main/java/name/nepavel/foodorder/restaapi/api/RestaurantApiClient.java"
+}

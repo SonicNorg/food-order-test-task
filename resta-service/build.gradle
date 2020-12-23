@@ -7,6 +7,10 @@ plugins {
 group = 'name.nepavel.foodorder'
 version = parent.version
 sourceCompatibility = '11'
+//
+//configurations.all {
+//	exclude group: 'ch.qos.logback'
+//}
 
 repositories {
 	mavenCentral()
@@ -16,16 +20,33 @@ repositories {
 dependencies {
 	//хелсчек и метрики
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
-	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation "org.springframework.boot:spring-boot-starter-web:$springWebVersion"
 	//без этого в новом спринге не будет работать bootstrap.yml и конфиг из Консула
 	implementation 'org.springframework.cloud:spring-cloud-starter-bootstrap'
+	implementation 'org.springframework.cloud:spring-cloud-starter-consul-discovery'
+	implementation 'org.springframework.cloud:spring-cloud-starter-consul-config'
+	//Для работы с БД
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	//ретрай для фейн-клиентов и просто для любых операций
+	implementation "org.springframework.retry:spring-retry"
+
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
 	compile group: 'org.postgresql', name: 'postgresql', version: '42.2.18'
 
-	//зависимость на АПИшку, собранную со своими зависимостями с помощью shadowJar
-	compile project(path: ":resta-api", configuration: 'shadow')
+	//зависимость на АПИшку
+	compile project(path: ":resta-api")
 
+	//Пул коннектов к БД
+	compile "com.zaxxer:HikariCP:3.4.5"
+	//Миграция схемы и данных БД
+	compile "org.flywaydb:flyway-core:7.3.2"
+	//Автоконвертер одинаковых по структуре классов друг в друга
+	compile group: 'org.mapstruct', name: 'mapstruct', version: '1.4.1.Final'
+
+
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
 	//спринговый процессор для работы аннотаций
 	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 }

@@ -16,7 +16,7 @@ repositories {
 dependencies {
     //хелсчек и метрики
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
-    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation "org.springframework.boot:spring-boot-starter-web:$springWebVersion"
     //без этого в новом спринге не будет работать bootstrap.yml и конфиг из Консула
     implementation 'org.springframework.cloud:spring-cloud-starter-bootstrap'
     //конфиг из Консула
