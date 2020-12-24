@@ -10,6 +10,7 @@ paths:
     get:
       tags:
         - Restaurant
+      operationId: getMenu
       responses:
         200:
           description: OK
@@ -19,10 +20,42 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/FoodItem"
+  /order/{id}:
+    get:
+      tags:
+        - Restaurant
+      operationId: getOrderById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OrderResponse"
   /order:
+    get:
+      tags:
+        - Restaurant
+      operationId: getOrders
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/OrderResponse"
     post:
       tags:
         - Restaurant
+      operationId: createOrder
       requestBody:
         content:
           application/json:
@@ -32,14 +65,13 @@ paths:
               items:
                 $ref: "#/components/schemas/OrderItem"
         required: true
-
       responses:
         200:
           description: OK
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Order"
+                $ref: "#/components/schemas/OrderResponse"
 
 components:
   schemas:
@@ -64,17 +96,6 @@ components:
         count:
           type: integer
           format: int32
-    Order:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int32
-        price:
-          type: number
-        date:
-          type: string
-          format: date-time
     OrderResponse:
       type: object
       properties:
