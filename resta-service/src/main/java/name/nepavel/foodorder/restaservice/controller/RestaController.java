@@ -2,6 +2,7 @@ package name.nepavel.foodorder.restaservice.controller;
 
 import lombok.RequiredArgsConstructor;
 import name.nepavel.foodorder.restaapi.model.FoodItem;
+import name.nepavel.foodorder.restaapi.model.Order;
 import name.nepavel.foodorder.restaapi.model.OrderItem;
 import name.nepavel.foodorder.restaservice.service.RestaService;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +23,8 @@ public class RestaController implements RestaurantApi {
     }
 
     @Override
-    public ResponseEntity<List<FoodItem>> orderPost(@Valid List<OrderItem> orderItem) {
-        return null;
+    public ResponseEntity<Order> orderPost(@Valid List<OrderItem> orderItem) {
+        return ResponseEntity.ok(restaService.order(orderItem));
     }
+
 }

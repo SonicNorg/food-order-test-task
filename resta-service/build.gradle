@@ -43,6 +43,8 @@ dependencies {
 	compile "org.flywaydb:flyway-core:7.3.2"
 	//Автоконвертер одинаковых по структуре классов друг в друга
 	compile group: 'org.mapstruct', name: 'mapstruct', version: '1.4.1.Final'
+	compile "org.mapstruct:mapstruct-processor:1.4.1.Final"
+	annotationProcessor 'org.mapstruct:mapstruct-processor:1.4.1.Final'
 
 
 	compileOnly 'org.projectlombok:lombok'

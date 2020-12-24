@@ -1,7 +1,6 @@
 plugins {
     id 'java'
     id "org.openapi.generator" version "5.0.0"
-//    id 'org.springframework.boot' version "$springBootVersion"
     id 'io.spring.dependency-management' version '1.0.10.RELEASE'
 }
 
@@ -40,18 +39,11 @@ openApiGenerate {
     apiPackage = "name.nepavel.foodorder.restaapi.api"
     invokerPackage = "name.nepavel.foodorder.restaapi"
     modelPackage = "name.nepavel.foodorder.restaapi.model"
-//        modelFilesConstrainedTo = [
-//                "Error"
-//        ]
     configOptions = [
             dateLibrary: "java8",
-            library    : "spring-cloud"
+            library    : "spring-cloud",
+            interfaceOnly: "true"
     ]
 }
 
 compileJava.dependsOn tasks.openApiGenerate
-
-tasks.openApiGenerate.doLast {
-    delete "${buildDir}/generated/src/main/java/org"
-    delete "${buildDir}/generated/src/main/java/name/nepavel/foodorder/restaapi/api/RestaurantApiClient.java"
-}

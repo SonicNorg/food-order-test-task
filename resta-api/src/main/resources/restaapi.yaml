@@ -39,9 +39,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/FoodItem"
+                $ref: "#/components/schemas/Order"
 
 components:
   schemas:
@@ -52,6 +50,8 @@ components:
           type: integer
           format: int32
         name:
+          type: string
+        description:
           type: string
         price:
           type: number
@@ -64,3 +64,34 @@ components:
         count:
           type: integer
           format: int32
+    Order:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        price:
+          type: number
+        date:
+          type: string
+          format: date-time
+    OrderResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        price:
+          type: number
+        date:
+          type: string
+          format: date-time
+        food:
+          type: array
+          items:
+            type: object
+            properties:
+              foodItem:
+                $ref: "#/components/schemas/FoodItem"
+              count:
+                type: integer
