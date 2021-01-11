@@ -14,3 +14,10 @@ spring:
     url: ${restaurant.db.url}
     schemas: ${restaurant.db.schema}
     placeholders.restaName: ${spring.application.name}
+
+restaurant:
+  db:
+    username: asdf
+    password: 1324123
+    url: jdbc://postgres://blah
+    schema: public

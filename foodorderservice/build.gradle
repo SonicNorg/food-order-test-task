@@ -26,7 +26,13 @@ dependencies {
     //фейн-клиенты к рестовым сервисам
     implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
 
+    //зависимость на АПИшку
+    compile project(path: ":resta-api")
+
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
 
     //Процессор спринговых аннотаций
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
